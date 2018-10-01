@@ -17,7 +17,6 @@ class ChannelReader:
         
 
 class TgClient:
-    default = TgClient(TelegramClient('session_name', api_id, api_hash))
     def __init__(self, client):
         self.client = client
         client.connect()
