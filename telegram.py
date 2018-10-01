@@ -9,17 +9,42 @@ class ChannelReader:
     def __init__(self, client):
         self.client = client
         
-    def get_last_channel_messages(channel, last_read_message):
-        pass
-        
-    def get_last_message_id(channel):
-        pass
         
 
 class TgClient:
     def __init__(self, client):
         self.client = client
         client.connect()
+        
+    def get_last_message_id(self, channel_name):
+        channel_entity = self.client.get_entity(channel_name)
+        posts = self.client(GetHistoryRequest(
+            peer=channel_entity,
+            limit=1,
+            offset_date=None,
+            offset_id=0,
+            max_id=0,
+            min_id=0,
+            add_offset=0,
+            hash=0))
+        try:
+            return posts.messages[0].id
+        except:
+            return 0
+        
+    def get_messages(self, channel_name, min_id=0):
+        channel_entity = self.client.get_entity(channel_name)
+        print(channel_entity)
+        posts = self.client(GetHistoryRequest(
+            peer=channel_entity,
+            limit=100,
+            offset_date=None,
+            offset_id=0,
+            max_id=0,
+            min_id=min_id,
+            add_offset=0,
+            hash=0))
+        return posts.messages
     
 
 

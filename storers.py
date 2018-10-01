@@ -4,9 +4,9 @@ class ChannelStorer:
     def __init__(self, conn):
         self.conn = conn
 
-    def add_channel(self, telegram_id, name):
+    def add_channel(self, telegram_id, channel_name, channel_title='', last_read_id=0):
         with self.conn.cursor() as cur:
-            cur.execute("INSERT INTO channels (telegramid, name) VALUES (%s, %s) RETURNING id", (telegram_id, name))
+            cur.execute("INSERT INTO channels (telegramid, ShortName, name, LastReadMessageId) VALUES (%s, %s, %s, %s) RETURNING id", (telegram_id, channel_name, channel_title, last_read_id))
             for i in cur:
                 return i[0]
         

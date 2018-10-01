@@ -7,27 +7,23 @@ from telegram import *
 
 
 def init():
-    ClientRoot.connect()
+    pass
+
+def add_channel(channel_name):
+    with ConnectionFactory.get_connection() as conn:
+        channel = Clients.default.client.get_entity(channel_name)
+        last_message_id = Clients.default.get_last_message_id(channel_name)
+        ChannelStorer(conn).add_channel(channel.id, channel.username, channel.title, last_message_id)
 
 #client = TelegramClient('session_name', api_id, api_hash)
 #client.connect()
 
-def get_messages(channel_name):
-    channel_entity=client.get_entity(channel_name)
-    posts = client(GetHistoryRequest(
-        peer=channel_entity,
-        limit=100,
-        offset_date=None,
-        offset_id=0,
-        max_id=0,
-        min_id=0,
-        add_offset=0,
-        hash=0))
-    return posts.messages
+add_channel("TestChannelForSome")
+#Clients.default.get_messages("TestChannelForSome", 3)
 #print(dir(storers))
 #print(storers.ChannelStorer)
 #ChannelStorer
-ChannelStorer("a")
+#ChannelStorer("a")
 #for i in get_messages("TestChannelForSome"):
 #    print(i.message)
     
