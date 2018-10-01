@@ -1,19 +1,16 @@
 from telethon import TelegramClient, sync, events
 from telethon.tl.functions.contacts import ResolveUsernameRequest
 from telethon.tl.functions.messages import GetHistoryRequest
+from ConnectionFactory import *
+from storers import *
+from telegram import *
 
 
-api_id = 447894
-api_hash = 'cc5a0328d85995641668b0beb131e5e6'
+def init():
+    ClientRoot.connect()
 
-client = TelegramClient('session_name', api_id, api_hash)
-client.connect()
-#client.run_until_disconnected()
-
-
-@client.on(events.NewMessage)
-async def my_event_handler(event):
-    print(event)
+#client = TelegramClient('session_name', api_id, api_hash)
+#client.connect()
 
 def get_messages(channel_name):
     channel_entity=client.get_entity(channel_name)
@@ -27,7 +24,14 @@ def get_messages(channel_name):
         add_offset=0,
         hash=0))
     return posts.messages
+#print(dir(storers))
+#print(storers.ChannelStorer)
+#ChannelStorer
+ChannelStorer("a")
+#for i in get_messages("TestChannelForSome"):
+#    print(i.message)
     
-
-for i in get_messages("TestChannelForSome"):
-    print(i.message)
+#with ConnectionFactory.get_connection():
+#   pass
+#
+init()
